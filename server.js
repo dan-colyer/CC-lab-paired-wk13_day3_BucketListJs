@@ -44,34 +44,31 @@ MongoClient.connect('mongodb://localhost:27017', function(err, client){
       res.json(result);
     });
   });
-//
-// // DELETE all quotes from DB
-// server.delete('/', function(req, res) {
-//  db.collection('wishlist').remove({}, function(err, result) {
-//     if(err) {
-//      console.log(err);
-//      res.status(500);
-//      res.send();
-//      return;
-//     }
-//
-//     console.log("Deleted");
-//     res.status(204);
-//     res.send();
-//    });
 });
 //
+// DELETE all quotes from DB
+server.delete('/api/countries', function(req, res) {
+ db.collection('wishlist').remove({}, function(err, result) {
+    if(err) {
+     console.log(err);
+     res.status(500);
+     res.send();
+     return;
+    }
+
+    console.log("Deleted");
+    res.status(204);
+    res.send();
+   });
+ });
+
+
 server.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
-//
+
 server.use(express.static('build'));
-//
-//
+
 server.listen(3000, function(){
   console.log("Listening on port 3000");
 });
-
-
-
-// });

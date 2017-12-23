@@ -60,12 +60,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 178);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 178:
+/******/ ([
+/* 0 */
 /***/ (function(module, exports) {
 
 let countries = [];
@@ -76,7 +75,10 @@ const app = function() {
   select.addEventListener('change', handleSelectChange);
 
   const button = document.querySelector('#add');
-  button.addEventListener('click', handleButtonClick)
+  button.addEventListener('click', handleButtonClick);
+
+  const deleteButton = document.querySelector('#delete');
+  deleteButton.addEventListener('click', handleDeleteButtonClick);
 
   const countriesUrl = 'https://restcountries.eu/rest/v2/all';
   makeRequest(countriesUrl, requestComplete);
@@ -93,6 +95,7 @@ const app = function() {
 
         countries.forEach(function(country){
           const CountryLi = document.createElement('li');
+
           CountryLi.innerText = country.name;
           list.appendChild(CountryLi);
         })
@@ -101,7 +104,6 @@ const app = function() {
   }
 
     displaySavedCountries();
-  // console.log('test');
 }
 
 const handleButtonClick = function() {
@@ -121,17 +123,19 @@ const handleButtonClick = function() {
     const CountryLi = document.createElement('li');
     CountryLi.innerText = country.name;
     list.appendChild(CountryLi);
+
+    const flagImg = document.createElement('img');
+    const flagImgUrl = country.flag;
+
+    flagImg.src = flagImgUrl;
+    flagImg.className ="flag-images";
+
+    list.appendChild(flagImg);
   })
 
-  // const body = {
-  //   countryName: selectedCountry
-  // }
   request.send(JSON.stringify(selectedCountry));
 }
-// function myFunction() {
-//     var x = document.getElementById("mySelect").value;
-//     document.getElementById("demo").innerHTML = x;
-// }
+
 
 const makeRequest = function(url, callback) {
   const request = new XMLHttpRequest;
@@ -164,10 +168,36 @@ const handleSelectChange = function() {
 
 }
 
+const handleDeleteButtonClick = function() {
+  const request = new XMLHttpRequest();
+  console.log('delete button clicked');
+  request.open('DELETE', 'http://localhost:3000/api/countries');
+   request.addEventListener('load', function() {
+     if(this.status!==204) {
+       return;
+     }
+     callback();
+   });
+   request.send();
+}
+
+// const deleteRequestComplete = function() {
+//   // this.countries.clear();
+//   const request = new XMLHttpRequest();
+//   request.open('DELETE', this.countriesUrl);
+//    request.addEventListener('load', function() {
+//      if(this.status!==204) {
+//        return;
+//      }
+//
+//      callback();
+//    });
+//    request.send();
+// }
+
 document.addEventListener('DOMContentLoaded', app);
 
 
 /***/ })
-
-/******/ });
+/******/ ]);
 //# sourceMappingURL=bundle.js.map
